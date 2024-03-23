@@ -33,7 +33,7 @@ def calculate_postfix(token_list):
 
 
 def calculate_infix(expression):
-       """Funkcija izračunava vrednost izraza zapisanog u infiksnoj notaciji
+    """Funkcija izračunava vrednost izraza zapisanog u infiksnoj notaciji
 
     Args:
         expression (string): Izraz koji se parsira. Izraz može da sadrži cifre, zagrade, znakove računskih operacija.
