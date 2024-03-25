@@ -195,6 +195,7 @@ def calculate_infix(expression):
     Primer:
         Ulaz '6.11 – 74 * 2' se pretvara u izlaz -141.89
     """
+    tokens = tokenize(expression)
     pass
 
 
@@ -208,6 +209,6 @@ if __name__ == "__main__":
     }
     stack = Stack()
 
-    string = "-4+7*(-2)"
+    string = "2 + 3 * 4 - 5 / 6"
     print(infix_to_postfix(string))
     print(calculate_postfix(infix_to_postfix(string)))
