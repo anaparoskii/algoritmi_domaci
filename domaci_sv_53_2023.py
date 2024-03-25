@@ -56,8 +56,8 @@ def infix_to_postfix(expression):
 
     unary = ""
     open_parentheses = 0
-    parentheses_opened = False
     closed_parentheses = 0
+    parentheses_opened = False
     operation_detected = False
 
     if tokens[-1] in operations:
