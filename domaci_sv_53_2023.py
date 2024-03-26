@@ -180,23 +180,9 @@ def calculate_postfix(token_list):
 
 
 def calculate_infix(expression):
-    """Funkcija izračunava vrednost izraza zapisanog u infiksnoj notaciji
-
-    Args:
-        expression (string): Izraz koji se parsira. Izraz može da sadrži cifre, zagrade, znakove računskih operacija.
-        U slučaju da postoji problem sa formatom ili sadržajem izraza, potrebno je baciti odgovarajući izuzetak.
-
-        U slučaju da postoji problem sa brojem parametara, potrebno je baciti odgovarajući izuzetak.
-        
-
-    Returns:
-        result: Broj koji reprezentuje konačnu vrednost izraza
-
-    Primer:
-        Ulaz '6.11 – 74 * 2' se pretvara u izlaz -141.89
-    """
-    tokens = tokenize(expression)
-    pass
+    token_list = infix_to_postfix(expression)
+    result = calculate_postfix(token_list)
+    return result
 
 
 if __name__ == "__main__":
@@ -209,6 +195,5 @@ if __name__ == "__main__":
     }
     stack = Stack()
 
-    string = "2 + 3 * 4 - 5 / 6"
-    print(infix_to_postfix(string))
-    print(calculate_postfix(infix_to_postfix(string)))
+    value = input("Enter expression: \n")
+    print(calculate_infix(value))
