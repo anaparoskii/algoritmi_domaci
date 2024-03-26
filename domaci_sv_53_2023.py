@@ -53,13 +53,18 @@ class ExpressionLengthError(Exception):
     pass
 
 
+class InvalidResultError(Exception):
+    pass
+
+
 def infix_to_postfix(expression):
     operations = {
         '+': 1,
         '-': 1,
         '*': 2,
         '/': 2,
-        '^': 3
+        '_': 3,  # unary minus
+        '^': 4
     }
     stack = Stack()
 
@@ -93,6 +98,7 @@ def infix_to_postfix(expression):
         tokens = tokens[1:]
 
     for token in tokens:
+        # if "-" isn't the first character after "(" then it's not unary
         if token != "-":
             parentheses_opened = False
 
@@ -126,21 +132,15 @@ def infix_to_postfix(expression):
                    operations[stack.top()] >= operations[token]):
                 postfix.append(stack.pop())
             if token == "-" and parentheses_opened:
-                stack.push("_")  # unary minus
+                stack.push("_")
                 operation_detected = True
                 unary = True
             else:
                 stack.push(token)
                 operation_detected = True
         else:
-            if unary and stack.top() == "_":
-                stack.pop()
-                postfix.append("-" + token)
-                number_detected = True
-                unary = False
-            else:
-                postfix.append(token)
-                number_detected = True
+            postfix.append(token)
+            number_detected = True
 
     while not stack.is_empty():
         if stack.top() == "_" and not unary:
@@ -162,12 +162,13 @@ def calculate_postfix(token_list):
         '-': 1,
         '*': 2,
         '/': 2,
-        '^': 3
+        '_': 3,  # unary minus
+        '^': 4
     }
     stack = Stack()
     
     for token in token_list:
-        if token in operations:
+        if token in operations and token != "_":
             operation = token
             if len(stack) < 2:
                 raise ParameterNumberError("Invalid number of parameters!")
@@ -181,15 +182,18 @@ def calculate_postfix(token_list):
                 elif operation == "*":
                     stack.push(first * second)
                 elif operation == "/":
+                    if second == 0:
+                        raise InvalidResultError("Division by zero!")
                     stack.push(first / second)
                 elif operation == "^":
+                    if first < 0 and second < 1:
+                        raise InvalidResultError("Can't take root from negative number!")
                     stack.push(first ** second)
         elif token == "_":
             if len(stack) < 1:
                 raise ParameterNumberError("Invalid number of parameters!")
             else:
-                element = stack.pop()
-                stack.push(0 - element)
+                stack.push(0 - stack.pop())
         else:
             token = float(token)
             stack.push(token)
@@ -198,13 +202,11 @@ def calculate_postfix(token_list):
 
 
 def calculate_infix(expression):
-    token_list = infix_to_postfix(expression)
-    result = calculate_postfix(token_list)
-    return result
+    return calculate_postfix(infix_to_postfix(expression))
 
 
 if __name__ == "__main__":
     value = input("Enter expression: ")
     postfix_value = infix_to_postfix(value)
     print("Postfix expression: {}".format(postfix_value))
-    print("Result: %f" % calculate_infix(value))
+    print("Result: %.2f" % calculate_infix(value))
