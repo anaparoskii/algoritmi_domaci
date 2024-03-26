@@ -54,6 +54,15 @@ class ExpressionLengthError(Exception):
 
 
 def infix_to_postfix(expression):
+    operations = {
+        '+': 1,
+        '-': 1,
+        '*': 2,
+        '/': 2,
+        '^': 3
+    }
+    stack = Stack()
+
     tokens = tokenize(expression)
     postfix = []
 
@@ -148,6 +157,15 @@ def infix_to_postfix(expression):
 
 
 def calculate_postfix(token_list):
+    operations = {
+        '+': 1,
+        '-': 1,
+        '*': 2,
+        '/': 2,
+        '^': 3
+    }
+    stack = Stack()
+    
     for token in token_list:
         if token in operations:
             operation = token
@@ -186,15 +204,6 @@ def calculate_infix(expression):
 
 
 if __name__ == "__main__":
-    operations = {
-        '+': 1,
-        '-': 1,
-        '*': 2,
-        '/': 2,
-        '^': 3
-    }
-    stack = Stack()
-
     value = input("Enter expression: ")
     postfix_value = infix_to_postfix(value)
     print("Postfix expression: {}".format(postfix_value))
