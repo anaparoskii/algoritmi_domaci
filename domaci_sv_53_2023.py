@@ -195,5 +195,7 @@ if __name__ == "__main__":
     }
     stack = Stack()
 
-    value = input("Enter expression: \n")
-    print(calculate_infix(value))
+    value = input("Enter expression: ")
+    postfix_value = infix_to_postfix(value)
+    print("Postfix expression: {}".format(postfix_value))
+    print("Result: %f" % calculate_infix(value))
