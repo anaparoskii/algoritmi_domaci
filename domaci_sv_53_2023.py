@@ -186,7 +186,7 @@ def calculate_postfix(token_list):
                         raise InvalidResultError("Division by zero!")
                     stack.push(first / second)
                 elif operation == "^":
-                    if first < 0 and second < 1:
+                    if first < 0 < second < 1:
                         raise InvalidResultError("Can't take root from negative number!")
                     stack.push(first ** second)
         elif token == "_":
